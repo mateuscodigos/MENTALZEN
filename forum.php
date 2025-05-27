@@ -75,7 +75,7 @@ if ($topicoSelecionado) {
                 <nav>
                     <a href="chat.php" id="chat">Chat</a>
                     <a href="profissionais.php">Profissionais</a>
-                    <a href="forum.php" id="f">Fórum</a>
+                    <a href="forum.php" id="for">Fórum</a>
                     <a href="diario.php">Diário</a>
                 </nav>
             </div>
