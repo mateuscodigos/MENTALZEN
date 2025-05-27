@@ -1,0 +1,215 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Titillium Web", sans-serif;
+}
+
+body{
+    background: linear-gradient(to bottom right, #89a7b1, #05a862 );
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-size: cover; 
+    height: 70vh; 
+    margin: 0;
+    justify-content: center;
+    color: var(--white);
+    font-family: Arial, Helvetica, sans-serif;
+    align-items: center;
+    flex-direction: column; 
+    display: flex; 
+
+}
+.container{
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header{
+    background-color: #89a7b1;
+    width: 100%;
+    padding: 5px;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 10; 
+}
+
+.logo, .sociais{
+    width: 25%;
+}
+
+.logo img{
+    width: 125px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.menu {
+    width: 50%;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+}
+
+
+.menu nav a {
+    color: #ffffff;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 20px;
+    position: relative;
+    margin: 0 20px; 
+}
+.menu nav a::after{
+    content: " ";
+    width: 0px;
+    height: 4px;
+    background-image: linear-gradient(45deg, #89a7b1, #05a862 );
+    position: absolute;
+    top: 30px;
+    left: 0;
+    transition-duration: 0.5s;
+}
+
+.menu nav a:hover::after{
+    width: 75%; 
+    
+}
+
+.sociais{
+    width: 25%;
+    display: flex; 
+    justify-content: flex-end; 
+}
+
+.sociais button{
+    width: 50px;
+    height: 50px;
+    background-image: linear-gradient(45deg, #89a7b1, #05a862 );
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.5s ease, color 0.5s ease;
+}
+
+.sociais button i{
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.sociais button:hover {
+    transform: scale(1.2); 
+ }
+
+ .sociais button:last-child {
+    margin-right: 0; 
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.formulario input, .formulario textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.formulario button {
+    padding: 10px;
+    background-color: #4a7eb0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.topicos {
+    margin-top: 30px;
+}
+.topico {
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+}
+.topico h3 {
+    margin: 0;
+}
+.topico .data {
+    display: block;
+    font-size: 0.8em;
+    color: gray;
+}
+
+.header h1{
+    text-transform: uppercase;
+    background: linear-gradient(45deg,#0FC2C0, #590101,#008F8C,#0CABA8 );
+    background-size: 400% 100%;
+    animation: degrade 10s linear infinite alternate;
+
+    -webkit-background-clip: text;
+    
+    -webkit-text-fill-color: transparent;
+}
+
+   .forum {
+    margin-top: 200px;
+    position: fixed;
+    top: 15px; /* distancia do topo da tela */
+    left: 50%;
+    transform: translateX(-50%); /* centraliza horizontalmente */
+    width: 80%;
+    height: 600px; /* Defina a altura da área */
+    overflow-y: auto; /* ativa a rolagem vertical interna */
+    background-color: #ddd;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.2); /* pra dar um charme */
+}
+
+
+
+.forum h1{
+    font-size: 66px;
+    margin-bottom: 40px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.topico {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 10px;
+    background-color: color #89a7b1;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.forum #postar{
+color: #f3f6f6;
+background: linear-gradient(to bottom right, #89a7b1, #05a862 );
+border-radius: 35px;
+cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    font-size: 18px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.forum #postar:hover {
+    background: linear-gradient(to bottom right, #89a7b1, #05a862 );
+    transform: scale(1.01);
+}
+#for {
+    background: linear-gradient(45deg, #02f75c, #00f7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+
