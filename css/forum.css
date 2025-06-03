@@ -192,24 +192,46 @@ header{
 }
 
 .forum #postar{
-color: #f3f6f6;
-background: linear-gradient(to bottom right, #89a7b1, #05a862 );
-border-radius: 35px;
-cursor: pointer;
-    padding: 10px 20px;
+ padding: 10px 32px;
+    font-size: 16px;
+    background-color: #05a862;
+    color: #fff;
     border: none;
-    font-size: 18px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.5s ease, color 0.5s ease;
+    width: 500px;
+    position: unset;
+    margin: 0 auto;
+    margin-top: 15px;
 }
 .forum #postar:hover {
     background: linear-gradient(to bottom right, #89a7b1, #05a862 );
-    transform: scale(1.01);
+    transform: scale(1.03);
+    
 }
 #for {
     background: linear-gradient(45deg, #02f75c, #00f7ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: bold;
+}
+
+.forum #tie{
+    border-radius: 15px;
+    position: unset;
+    margin: 0 auto;
+    padding: 10px;
+    width: 800px;
+    text-align: center;
+    margin-bottom: 15px;
+   
+}
+
+.forum #topi{
+    margin: 0 auto;
+    padding: 5px;
+    position: unset;
 }
 
 

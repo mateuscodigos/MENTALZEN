@@ -75,7 +75,7 @@ if ($topicoSelecionado) {
                 <nav>
                     <a href="chat.php" id="chat">Chat</a>
                     <a href="profissionais.php">Profissionais</a>
-                    <a href="forum.php" id="f">Fórum</a>
+                    <a href="forum.php" id="for">Fórum</a>
                     <a href="diario.php">Diário</a>
                 </nav>
             </div>
@@ -92,14 +92,14 @@ if ($topicoSelecionado) {
 
         <!-- Formulário de novo tópico -->
         <form method="POST" class="formulario">
-            <input type="text" name="titulo" placeholder="Título do tópico" required>
+            <input type="text" name="titulo" id="tie" placeholder="Título do tópico" required>
             <textarea name="mensagem" placeholder="Escreva sua mensagem..." required></textarea>
             <button id="postar" type="submit" name="novo_topico">Postar</button>
         </form>
 
         <!-- Lista de tópicos -->
         <div class="topicos">
-            <h2>Tópicos Recentes</h2>
+            <h2 id="topi">Tópicos Recentes</h2>
             <?php foreach ($topicos as $topico): ?>
                 <div class="topico">
                     <h3><a href="forum.php?topico=<?= $topico["id"] ?>"><?= htmlspecialchars($topico["titulo"]) ?></a></h3>

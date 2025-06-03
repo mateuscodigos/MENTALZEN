@@ -1,0 +1,99 @@
+.diary-container {
+    position: absolute;
+    top: 15%;
+    left: 26%;
+    height: 55%;
+    width: 50%;
+    margin: 30px auto;
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    resize: none;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.entry {
+    background: black;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid #5c67f2;
+    border-radius: 5px;
+    background: rgb(190, 212, 89);
+}
+
+.entry-time {
+    font-size: 0.8em;
+    color: gray;
+}
+
+p {
+    color: black;
+}
+
+.actions {
+    margin-top: 5px;
+    background-attachment: fixed;
+}
+
+.actions a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #444;
+}
+
+button {
+    background: #5c67f2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #4b55d1;
+}
+
+h3 {
+    color: rgb(17, 58, 44);
+}
+#novo{
+    color: black;
+}
+.sociais{
+    width: 25%;
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center;
+}
+
+.sociais button{
+    width: 50px;
+    height: 50px;
+    background-image: linear-gradient(45deg, #89a7b1, #05a862 );
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.5s ease, color 0.5s ease;
+}
+
+.sociais button i{
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.sociais button:hover {
+    transform: scale(1.2); 
+ }
+
+ .sociais button:last-child {
+    margin-right: 0; 
+}
+

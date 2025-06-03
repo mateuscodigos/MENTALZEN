@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="css/diario.css">
 <?php
 class DiarioManager {
     private $arquivo = 'diario.json';
@@ -84,63 +85,8 @@ $entradas = $diario->obterEntradas();
     <meta charset="UTF-8">
     <title>Diário Mentalzen</title>
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/diario.css">
     <script src="https://kit.fontawesome.com/1fa02d05b6.js" crossorigin="anonymous"></script>
-    <style>
-        .diary-container {
-            width: 60%;
-            margin: 30px auto;
-            background: #f4f4f4;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        textarea {
-            width: 100%;
-            height: 150px;
-            resize: none;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .entry {
-            background: #fff;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-left: 4px solid #5c67f2;
-            border-radius: 5px;
-            
-            background:rgb(190, 212, 89);
-        }
-        .entry-time {
-            font-size: 0.8em;
-            color: gray;
-
-        }
-        p{
-            color: black;
-        }
-        .actions {
-            margin-top: 5px;
-            background-attachment: fixed;
-        }
-        .actions a {
-            margin-right: 10px;
-            text-decoration: none;
-            color: #444;
-        }
-        button {
-            background: #5c67f2;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background: #4b55d1;
-        }
-        h3{
-            color:rgb(17, 58, 44);
-        }
-    </style>
 </head>
 <body>
 <header>
@@ -155,16 +101,17 @@ $entradas = $diario->obterEntradas();
             </nav>
         </div>
         <div class="sociais">
-            <button><i class="fa-brands fa-instagram"></i></button>
-            <button><i class="fa-brands fa-youtube"></i></button>
-            <button><i class="fa-brands fa-whatsapp"></i></button>
-        </div>
+           <button><i class="fa-brands fa-instagram icon"></i></button>
+           <button><i class="fa-brands fa-youtube icon"></i></button>
+           <button><i class="fa-brands fa-whatsapp icon"></i></button>
+</div>
+
     </div>
 </header>
 
 <main>
     <div class="diary-container">
-        <h2><?= $modo_edicao ? 'Editar Rascunho' : 'Novo Rascunho' ?></h2>
+        <h2 id="novo"><?= $modo_edicao ? 'Editar Rascunho' : 'Novo Rascunho' ?></h2>
         <form method="POST">
             <textarea name="entrada" placeholder="Escreva aqui..."><?= $modo_edicao ? htmlspecialchars($entrada_editada['texto']) : '' ?></textarea>
             <?php if ($modo_edicao): ?>
@@ -191,7 +138,7 @@ $entradas = $diario->obterEntradas();
                             <a href="<?php echo $editarLink; ?>">
                                 <i class="fa-solid fa-pen-to-square"></i> Editar
                             </a>
-                            <a href="<?php echo $excluirLink; ?>" onclick="return confirm('Deseja realmente excluir este rascunho, majestade?')">
+                            <a href="<?php echo $excluirLink; ?>" onclick="return confirm('Deseja realmente excluir este rascunho ?')">
                                 <i class="fa-solid fa-trash"></i> Excluir
                             </a>
                         </div>
