@@ -35,13 +35,13 @@
         <div class="card card1">
             <h2>PROFISSIONAL 1</h2>
             <img src="img/Homa.png" class="prof">
-            <button>CONTATO</button>
+            <button><a href="tela_profissionais.php">CONTATO</a></button>
         </div>
 
         <div class="card card2">
             <h2>PROFISSIONAL 2</h2>
             <img src="img/mulher.png" class="prof">
-            <button>CONTATO</button>
+            <button><a href="tela_profissionais2.php">CONTATO</a></button>
         </div>
 
     </div>

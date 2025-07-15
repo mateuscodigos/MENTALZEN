@@ -208,3 +208,8 @@ header{
         -webkit-text-fill-color: transparent;
         font-weight: bold;
     }
+
+ a:link {
+    color: #fff;
+    text-decoration: none;
+ }

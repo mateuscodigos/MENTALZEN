@@ -1,92 +1,56 @@
-<link rel="stylesheet" href="css/diario.css">
 <?php
-class DiarioManager {
-    private $arquivo = 'diario.json';
+require_once 'config.php';
 
-    public function obterEntradas() {
-        if (!file_exists($this->arquivo)) return [];
-        return json_decode(file_get_contents($this->arquivo), true) ?: [];
-    }
-
-    public function salvarEntrada($texto) {
-        $entradas = $this->obterEntradas();
-        $entradas[] = [
-            'id' => uniqid(),
-            'texto' => $texto,
-            'data' => date('d/m/Y H:i:s')
-        ];
-        $this->salvarArquivo($entradas);
-    }
-
-    public function excluirEntrada($id) {
-        $entradas = $this->obterEntradas();
-        $entradas = array_filter($entradas, fn($e) => isset($e['id']) && $e['id'] !== $id);
-        $this->salvarArquivo(array_values($entradas));
-    }
-
-    public function editarEntrada($id, $novoTexto) {
-        $entradas = $this->obterEntradas();
-        foreach ($entradas as &$e) {
-            if (isset($e['id']) && $e['id'] === $id) {
-                $e['texto'] = $novoTexto;
-                $e['data'] = date('d/m/Y H:i:s') . " (editado)";
-                break;
-            }
-        }
-        $this->salvarArquivo($entradas);
-    }
-
-    private function salvarArquivo($dados) {
-        file_put_contents($this->arquivo, json_encode($dados, JSON_PRETTY_PRINT));
-    }
-
-    public function buscarPorId($id) {
-        foreach ($this->obterEntradas() as $e) {
-            if (isset($e['id']) && $e['id'] === $id) return $e;
-        }
-        return null;
-    }
-}
-
-$diario = new DiarioManager();
 $modo_edicao = false;
 $entrada_editada = null;
 
+// Salvar ou editar entrada
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['entrada']) && !empty(trim($_POST['entrada']))) {
-        $texto = htmlspecialchars(trim($_POST['entrada']));
+    $texto = htmlspecialchars(trim($_POST['entrada']));
+    if (!empty($texto)) {
         if (isset($_POST['editar_id'])) {
-            $diario->editarEntrada($_POST['editar_id'], $texto);
+            $stmt = $pdo->prepare("UPDATE diario SET texto = ?, data = NOW() WHERE id = ?");
+            $stmt->execute([$texto, $_POST['editar_id']]);
         } else {
-            $diario->salvarEntrada($texto);
+            $stmt = $pdo->prepare("INSERT INTO diario (texto) VALUES (?)");
+            $stmt->execute([$texto]);
         }
-        header("Location: ".$_SERVER['PHP_SELF']);
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
 }
 
+// Excluir entrada
 if (isset($_GET['excluir'])) {
-    $diario->excluirEntrada($_GET['excluir']);
-    header("Location: ".$_SERVER['PHP_SELF']);
+    $stmt = $pdo->prepare("DELETE FROM diario WHERE id = ?");
+    $stmt->execute([$_GET['excluir']]);
+    header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
 
+// Carregar entrada pra editar
 if (isset($_GET['editar'])) {
-    $entrada_editada = $diario->buscarPorId($_GET['editar']);
-    if ($entrada_editada) $modo_edicao = true;
+    $stmt = $pdo->prepare("SELECT * FROM diario WHERE id = ?");
+    $stmt->execute([$_GET['editar']]);
+    $entrada_editada = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($entrada_editada) {
+        $modo_edicao = true;
+    }
 }
 
-$entradas = $diario->obterEntradas();
+// Buscar todas as entradas
+$stmt = $pdo->query("SELECT * FROM diario ORDER BY data DESC");
+$entradas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Diário Mentalzen</title>
-    <link rel="stylesheet" href="css/chat.css">
+    <title>Diário MentalZen</title>
     <link rel="stylesheet" href="css/diario.css">
-    <script src="https://kit.fontawesome.com/1fa02d05b6.js" crossorigin="anonymous"></script>
+    
+    <script src="https://kit.fontawesome.com/1fa02d05b6.js  " crossorigin="anonymous"></script>
 </head>
 <body>
 <header>
@@ -104,8 +68,7 @@ $entradas = $diario->obterEntradas();
            <button><i class="fa-brands fa-instagram icon"></i></button>
            <button><i class="fa-brands fa-youtube icon"></i></button>
            <button><i class="fa-brands fa-whatsapp icon"></i></button>
-</div>
-
+        </div>
     </div>
 </header>
 
@@ -117,7 +80,7 @@ $entradas = $diario->obterEntradas();
             <?php if ($modo_edicao): ?>
                 <input type="hidden" name="editar_id" value="<?= htmlspecialchars($entrada_editada['id']) ?>">
             <?php endif; ?>
-            <button type="submit"><?= $modo_edicao ? 'Salvar Alterações' : 'Salvar Rascunho' ?></button>
+            <button type="submit" id="au"><?= $modo_edicao ? 'Salvar Alterações' : 'Salvar Rascunho' ?></button>
         </form>
 
         <h3 style="margin-top:30px;">Rascunhos Salvos</h3>
@@ -125,20 +88,15 @@ $entradas = $diario->obterEntradas();
             <?php if (empty($entradas)): ?>
                 <p>Como você está se sentindo hoje?</p>
             <?php else: ?>
-                <?php foreach (array_reverse($entradas) as $e): ?>
-                    <?php if (!isset($e['id'], $e['texto'], $e['data'])) continue; ?>
-                    <?php
-                        $editarLink = htmlspecialchars($_SERVER['PHP_SELF']) . '?editar=' . urlencode($e['id']);
-                        $excluirLink = htmlspecialchars($_SERVER['PHP_SELF']) . '?excluir=' . urlencode($e['id']);
-                    ?>
+                <?php foreach ($entradas as $e): ?>
                     <div class="entry">
-                        <div class="entry-time">⏰ <?= htmlspecialchars($e['data']) ?></div>
+                        <div class="entry-time">⏰ <?= htmlspecialchars(date('d/m/Y H:i:s', strtotime($e['data']))) ?></div>
                         <p><?= nl2br(htmlspecialchars($e['texto'])) ?></p>
                         <div class="actions">
-                            <a href="<?php echo $editarLink; ?>">
+                            <a href="?editar=<?= $e['id'] ?>">
                                 <i class="fa-solid fa-pen-to-square"></i> Editar
                             </a>
-                            <a href="<?php echo $excluirLink; ?>" onclick="return confirm('Deseja realmente excluir este rascunho ?')">
+                            <a href="?excluir=<?= $e['id'] ?>" onclick="return confirm('Deseja realmente excluir este rascunho?')">
                                 <i class="fa-solid fa-trash"></i> Excluir
                             </a>
                         </div>
