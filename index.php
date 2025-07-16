@@ -14,7 +14,7 @@
 
         </div>
         <a href="login.php"><button type="button" class="btn btn-success" id="botao">Login</button></a>
-        <a href="chat.php"><button type="button" class="btn btn-success" id="botao2">Consulta Anônima</button></a>
+        <a href="chat-bot.php"><button type="button" class="btn btn-success" id="botao2">Consulta Anônima</button></a>
         <img src="img/logo(mentalzen).png" alt="">
     </div>
 </body>
