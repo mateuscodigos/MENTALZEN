@@ -15,7 +15,7 @@
             <div class="logo"><img src="img/logo(mentalzen).png"></div>
             <div class="menu">
                 <nav>
-                    <a href="chat.php">Chat</a>
+                    <a href="chat-bot.php">Chat</a>
                     <a href="profissionais.php" id='profissio'>Profissionais</a>
                     <a href="forum.php">Fórum</a>
                     <a href="diario.php">Diário</a>

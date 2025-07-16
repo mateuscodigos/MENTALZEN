@@ -73,7 +73,7 @@ if ($topicoSelecionado) {
             <div class="logo"><img src="img/logo(mentalzen).png" alt="MentalZen"></div>
             <div class="menu">
                 <nav>
-                    <a href="chat.php" id="chat">Chat</a>
+                    <a href="chat-bot.php" id="chat">Chat</a>
                     <a href="profissionais.php">Profissionais</a>
                     <a href="forum.php" id="for">Fórum</a>
                     <a href="diario.php">Diário</a>

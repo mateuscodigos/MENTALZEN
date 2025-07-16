@@ -58,7 +58,7 @@ $entradas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="logo"><img src="img/logo(mentalzen).png" alt="Logo"></div>
         <div class="menu">
             <nav>
-                <a href="chat.php">Chat</a>
+                <a href="chat-bot.php">Chat</a>
                 <a href="profissionais.php">Profissionais</a>
                 <a href="forum.php">Fórum</a>
                 <a href="diario.php" id="chat">Diário</a>
