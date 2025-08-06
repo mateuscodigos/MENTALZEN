@@ -1,56 +1,70 @@
 <?php
+// ChatBot.php
 require_once 'db.php';
 
 class ChatBot extends Database {
-
-    public function responder($pergunta_usuario) {
+    /**
+     * Recebe a pergunta do usuário e retorna a melhor resposta do FAQ,
+     * ou uma mensagem padrão de fallback.
+     */
+    public function responder(string $pergunta_usuario): string {
         $conn = $this->getConnection();
-        $pergunta_usuario = strtolower(trim($pergunta_usuario));
 
-        // Separa palavras do usuário e remove pontuação
-        $palavras_usuario = array_map('trim', explode(' ', preg_replace('/[^a-z0-9 ]/', '', $pergunta_usuario)));
+        // 1) Normalização: minúsculas, trim, manter acentos, remover pontuação extra
+        $texto = mb_strtolower(trim($pergunta_usuario), 'UTF-8');
+        $texto_limpo = preg_replace('/[^\p{L}\p{N} ]/u', ' ', $texto);
 
-        $sql = "SELECT * FROM faq";
+        // 2) Busca todas as FAQs
+        $sql = "SELECT pergunta, resposta, keywords FROM faq";
         $result = $conn->query($sql);
 
-        $melhor_resposta = null;
-        $melhor_pontuacao = 0;
+        $melhor_resposta   = null;
+        $melhor_pontuacao  = 0.0;
 
+        // 3) Para cada entrada do FAQ, calcula pontuação
         while ($row = $result->fetch_assoc()) {
-            $keywords = array_map('trim', explode(',', strtolower($row['keywords'])));
-            $pontuacao = 0;
+            $faq_pergunta  = mb_strtolower($row['pergunta'], 'UTF-8');
+            $faq_keywords  = mb_strtolower($row['keywords'],  'UTF-8');
+            $faq_resposta  = $row['resposta'];
 
-            // Prioriza palavras-chave com peso maior
-            foreach ($keywords as $keyword) {
-                if (in_array($keyword, $palavras_usuario)) {
-                    $pontuacao += 1;
+            // Explode keywords em array
+            $keywords = array_filter(array_map('trim', explode(',', $faq_keywords)));
+            $pontuacao = 0.0;
+
+            // 3a) Pontua por cada keyword presente como substring
+            foreach ($keywords as $kw) {
+                if ($kw !== '' && mb_stripos($texto_limpo, $kw, 0, 'UTF-8') !== false) {
+                    $pontuacao += 1.0;
                 }
             }
 
-            // Similaridade entre a pergunta do usuário e a do FAQ
-            similar_text(strtolower($row['pergunta']), $pergunta_usuario, $similaridade);
-            $pontuacao += round($similaridade / 100 * 1); // 1 ponto por percentual
+            // 3b) Pontua similaridade textual entre pergunta do FAQ e entrada do usuário
+            $sim = 0.0;
+            similar_text($faq_pergunta, $texto, $sim);
+            $pontuacao += ($sim / 100.0);
 
+            // 3c) Mantém resposta de maior pontuação
             if ($pontuacao > $melhor_pontuacao) {
                 $melhor_pontuacao = $pontuacao;
-                $melhor_resposta = $row['resposta'];
+                $melhor_resposta  = $faq_resposta;
             }
         }
 
-        // Se não encontrou resposta com pontuação >= 1, usa a resposta padrão
-        if ($melhor_resposta === null || $melhor_pontuacao < 1) {
+        // 4) Se não encontrou match (pontuação <= 0), retorna fallback
+        if ($melhor_resposta === null || $melhor_pontuacao <= 0.0) {
             return "Desculpe, não entendi. Mas se você estiver se sentindo mal, posso te ajudar a encontrar apoio.";
-        } else {
-            return $melhor_resposta;
         }
+
+        return $melhor_resposta;
     }
 }
 
+// ponto de entrada para requisições POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
-    $bot = new ChatBot();
+    $bot      = new ChatBot();
     $mensagem = $_POST['msg'] ?? '';
     echo $bot->responder($mensagem);
     exit;

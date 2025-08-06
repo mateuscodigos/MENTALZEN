@@ -3,7 +3,7 @@ class Database {
     private $host = "localhost";
     private $user = "root";         // usuário do MySQL
     private $pass = "";             // senha (geralmente vazia no XAMPP)
-    private $dbname = "mentalzen_forum"; // nome do seu banco
+    private $dbname = "mentalzen"; // nome do seu banco
     protected $conn;
 
     public function __construct() {

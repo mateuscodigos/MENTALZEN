@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db = 'mentalzen_forum';
+$db = 'mentalzen';
 $user = 'root';
 $pass = ''; 
 
